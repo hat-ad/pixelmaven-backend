@@ -1,6 +1,5 @@
 const db = require("../../NOSQL/database");
 
-exports.getUserByEmail = async (email) => {
-  const user = await db.User.findOne({ email });
-  return user;
-};
+exports.getUserByEmail = (email) => db.User.findOne({ email });
+
+exports.createUser = (body) => db.User.create(body);
