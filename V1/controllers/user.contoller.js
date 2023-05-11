@@ -1,8 +1,7 @@
 const services = require("../services");
 const Bcryptjs = require("bcryptjs");
-const moment = require("moment");
 const { OK, ERROR } = require("../../utils/responseHelper");
-const { GenerateOTP, GenerateToken } = require(".../../utils/function");
+const { GenerateToken } = require("../../utils/functions");
 
 exports.login = async (req, res) => {
   try {
@@ -47,6 +46,7 @@ exports.register = async (req, res) => {
       email,
       password: hashPassword,
       token,
+      isVerified: true,
     };
     const newUser = await services.User.createUser(body);
 

@@ -1,26 +1,30 @@
 const mongoose = require("mongoose");
 
 const CastSchema = new mongoose.Schema({
-  castType: { type: String, enum: ["LEAD", "SUPPORTING", "BACKGROUND"] },
-  castName: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
+  castType: {
+    type: String,
+    enum: ["LEAD", "SUPPORTING", "BACKGROUND"],
+    default: "LEAD",
+  },
+  castName: { type: String },
 });
 
 const DirectorSchema = new mongoose.Schema({
-  directorName: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
+  directorName: { type: String },
 });
 
 const ProducersSchema = new mongoose.Schema({
-  producerName: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
+  producerName: { type: String },
 });
 
 const movieSchema = new mongoose.Schema(
   {
-    name: { type: String, required: false },
+    name: { type: String, required: true },
+    description: { type: String, required: false },
     link: { type: String, required: false },
-    thumbnails: { type: String, required: true, unique: true },
-    trailer: { type: String, required: true },
-    extras: { type: Boolean, default: false, required: true },
-    isAvailable: { type: String },
+    thumbnails: { type: String, required: false },
+    trailer: { type: String, required: false },
+    extras: { type: String, required: false },
     cast: [{ type: CastSchema }],
     director: [{ type: DirectorSchema }],
     producer: [{ type: ProducersSchema }],
