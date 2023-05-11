@@ -8,14 +8,8 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await services.User.getUserByEmail(email);
 
-    if (!user || !user.isVerified) {
-      return ERROR(
-        res,
-        user,
-        !user.isVerified
-          ? "This user has not been verified yet.Please check your mail to verify!"
-          : "This User is not Registered or Disabled"
-      );
+    if (!user) {
+      return ERROR(res, user, "This User is not Registered or Disabled");
     }
 
     const hashedPassword = await Bcryptjs.compare(password, user.password);
@@ -24,7 +18,7 @@ exports.login = async (req, res) => {
     user.token = token;
     await user.save();
 
-    return OK(res, { user, token }, "USER Logged in Successfully!");
+    return OK(res, user, "USER Logged in Successfully!");
   } catch (error) {
     return ERROR(res, { error }, error.message || "Something went Wrong");
   }
@@ -39,7 +33,7 @@ exports.register = async (req, res) => {
       return ERROR(res, user, "Please login to continue");
     }
     const hashPassword = await Bcryptjs.hash(password, 12);
-    const token = GenerateToken(user);
+    const token = GenerateToken(req.body);
     const body = {
       firstName,
       lastName,
@@ -50,8 +44,9 @@ exports.register = async (req, res) => {
     };
     const newUser = await services.User.createUser(body);
 
-    return OK(res, { user: newUser, token }, "User registered SuccessFully!");
+    return OK(res, newUser, "User registered SuccessFully!");
   } catch (error) {
+    console.log(error);
     return ERROR(res, { error }, error.message || "Something went Wrong");
   }
 };
