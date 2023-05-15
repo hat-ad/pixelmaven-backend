@@ -28,6 +28,9 @@ const movieSchema = new mongoose.Schema(
     cast: [{ type: CastSchema }],
     director: [{ type: DirectorSchema }],
     producer: [{ type: ProducersSchema }],
+    release: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
