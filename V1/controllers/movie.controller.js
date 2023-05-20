@@ -32,7 +32,7 @@ exports.createMovie = async (req, res) => {
 
 exports.getAllMovies = async (req, res) => {
   try {
-    const movies = await services.Movie.getMovie({});
+    const movies = await services.Movie.getMovies({});
 
     return OK(res, movies, "Found all movies!");
   } catch (error) {
@@ -43,7 +43,8 @@ exports.getAllMovies = async (req, res) => {
 exports.getMovieById = async (req, res) => {
   try {
     const movie = await services.Movie.getMovie({ _id: req.params.id });
-    return OK(res, movie.length ? movie[0] : null, "Movie found successfully!");
+
+    return OK(res, movie, "Movie found successfully!");
   } catch (error) {
     return ERROR(res, { error }, error.message || "Something went Wrong");
   }

@@ -39,21 +39,21 @@ movieSchema.virtual("Directors", {
   ref: "Member",
   localField: ["director.directorName"],
   foreignField: ["name"],
-  justOne: true,
 });
 
 movieSchema.virtual("Producers", {
   ref: "Member",
   localField: ["producer.producerName"],
   foreignField: ["name"],
-  justOne: true,
 });
 
 movieSchema.virtual("Cast", {
   ref: "Member",
   localField: ["cast.castName"],
   foreignField: ["name"],
-  justOne: true,
 });
+
+movieSchema.set("toObject", { virtuals: true });
+movieSchema.set("toJSON", { virtuals: true });
 
 module.exports = mongoose.model("movie", movieSchema);
